@@ -29,3 +29,9 @@ export interface IAuthRequest extends Request {
         role: string
     }
 }
+
+//interface to check users info
+export interface IUpdateUserRole {
+    id: number,
+    role: string,
+}

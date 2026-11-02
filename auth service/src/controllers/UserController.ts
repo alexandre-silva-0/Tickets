@@ -6,7 +6,7 @@ import { createHashedPassword, checkPassword } from "../helpers/bcrypt-helper.js
 import { generateToken } from "../helpers/jwt-helper.js";
 
 //repositories
-import { createUser, getUserByEmail, getUserById } from "../repositories/UserRepository.js";
+import { createUser, getUserByEmail, getUserById, getAllUsers, updateUserRole } from "../repositories/UserRepository.js";
 
 //interfaces
 import { IAuthRequest, IRegisterBody } from "../dtos/auth.dto.js";
@@ -41,7 +41,8 @@ export const register = async (req: Request<{}, {}, IRegisterBody>, res: Respons
         msg: "Usuário criado com sucesso.",
         user: {
             id: createdUser.id,
-            email: createdUser.email
+            email: createdUser.email,
+            role: createdUser.role
         }
     })
 }
@@ -77,7 +78,8 @@ export const login = async (req: Request<{}, {}, ILoginBody>, res: Response) => 
         msg: "Login realizado com sucesso.",
         user: {
             id: user.id,
-            email: user.email
+            email: user.email,
+            role: user.role
         }
     })
 }
@@ -94,8 +96,30 @@ export const currentuser = async (req: IAuthRequest, res: Response) => {
 
 }
 
+export const allUsers = async (req: Request, res: Response) => {
+    try {
+
+        const users = await getAllUsers()
+
+        res.status(200).json({ users })
+
+    } catch (error: any) {
+        throw new Error('Não foi possível carregar todos os usuários', error)
+    }
+}
+
 export const changeRole = async (req: IAuthRequest, res: Response) => {
 
-        
+    console.log(req.user)
+
+    const { id, role } = req.body
+
+    try {
+        await updateUserRole({ id, role })
+
+        res.status(201).json({ msg: "Usuário atualizado com sucesso" })
+    } catch (error: any) {
+        throw new Error(error)
+    }
 
 }

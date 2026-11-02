@@ -1,2 +1,19 @@
+# Dependências
 node_modules/
+
+# Variáveis de Ambiente
 .env
+
+# Build do TypeScript (MUITO IMPORTANTE)
+dist/
+build/
+
+# Logs de erro do Node/NPM
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# Configurações de editores de código
+.vscode/
+.idea/
