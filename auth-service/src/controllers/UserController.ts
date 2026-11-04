@@ -13,6 +13,9 @@ import { IAuthRequest, IRegisterBody } from "../dtos/auth.dto.js";
 import { ICreatedUserData } from "../dtos/auth.dto.js";
 import { ILoginBody } from "../dtos/auth.dto.js";
 
+//RabbitMQ
+import { publishMessage } from "../config/rabbitmq.js";
+
 export const register = async (req: Request<{}, {}, IRegisterBody>, res: Response): Promise<void> => {
     const { name, email, role, password } = req.body
 
@@ -36,6 +39,18 @@ export const register = async (req: Request<{}, {}, IRegisterBody>, res: Respons
         maxAge: 24 * 60 * 60 * 1000,
         sameSite: 'strict'
     })
+
+
+    //prepara o payload que vai para o rabbitmq
+    const userCreatedEvent = {
+        id: createdUser.id,
+        name: createdUser.name,
+        email: createdUser.email,
+        role: createdUser.role
+    }
+
+    //dispara a mensagem para a queue
+    await publishMessage('user_created', userCreatedEvent)
 
     res.status(201).json({
         msg: "Usuário criado com sucesso.",
@@ -103,8 +118,8 @@ export const allUsers = async (req: Request, res: Response) => {
 
         res.status(200).json({ users })
 
-    } catch (error: any) {
-        throw new Error('Não foi possível carregar todos os usuários', error)
+    } catch (error) {
+        console.error("Erro ao carregar todos os usuários", error)
     }
 }
 
@@ -118,8 +133,8 @@ export const changeRole = async (req: IAuthRequest, res: Response) => {
         await updateUserRole({ id, role })
 
         res.status(201).json({ msg: "Usuário atualizado com sucesso" })
-    } catch (error: any) {
-        throw new Error(error)
+    } catch (error) {
+        console.error("Erro ao atualizar tipo de usuário", error)
     }
 
 }
