@@ -138,3 +138,18 @@ export const changeRole = async (req: IAuthRequest, res: Response) => {
     }
 
 }
+
+export const syncAllUsers = async (req: IAuthRequest, res: Response) => {
+    const users = await getAllUsers()
+
+    users.forEach(async (user) => {
+        await publishMessage('user_created', {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        })
+    })
+
+    res.status(200).json({msg: "Usuários sincronizados."})
+}

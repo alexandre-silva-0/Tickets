@@ -20,7 +20,11 @@ app.use(router)
 
 
 const startServer = async () => {
-    await connectRabbitMQ()
+    try {
+        await connectRabbitMQ()
+    } catch (error) {
+        console.error("Não foi possível conectar ao RabbitMQ:", error)
+    }
 
     database
         .sync()
