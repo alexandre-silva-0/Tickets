@@ -9,4 +9,9 @@ export const createNewTicket = async (ticket: ITicketCreation) => {
         description: ticket.description,
         userId: ticket.userId
     })
+
+}
+
+export const getTicketByID = async (ticketId: number) => {
+    return await Ticket.findOne({ where: { id: ticketId } })
 }

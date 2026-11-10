@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
-import router from './routes/TicketsRoutes.js'
+import ticketRouter from './routes/TicketsRoutes.js'
+import commentRouter from './routes/CommentRoutes.js'
 
 //config
 import { connectRabbitMQ, consumeMessage } from './config/rabbitmq.js'
@@ -13,7 +14,8 @@ dotenv.config()
 app.use(express.json())
 
 //routes
-app.use(router)
+app.use(ticketRouter)
+app.use(commentRouter)
 
 const startServer = async () => {
 

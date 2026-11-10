@@ -7,7 +7,6 @@ import database from './config/database.js'
 //routes
 import router from './routes/UserRoutes.js'
 
-
 //RabbitMQ
 import { connectRabbitMQ } from './config/rabbitmq.js'
 
@@ -20,11 +19,7 @@ app.use(router)
 
 
 const startServer = async () => {
-    try {
-        await connectRabbitMQ()
-    } catch (error) {
-        console.error("Não foi possível conectar ao RabbitMQ:", error)
-    }
+    await connectRabbitMQ()
 
     database
         .sync()
