@@ -1,17 +1,23 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
+
+//routes
 import ticketRouter from './routes/TicketsRoutes.js'
 import commentRouter from './routes/CommentRoutes.js'
 
 //config
 import { connectRabbitMQ, consumeMessage } from './config/rabbitmq.js'
 import database from './config/database.js'
+
+//repository
 import { registerNewUser } from './repositories/UserRepository.js'
 
 const app = express()
 dotenv.config()
 
 app.use(express.json())
+app.use(cookieParser())
 
 //routes
 app.use(ticketRouter)

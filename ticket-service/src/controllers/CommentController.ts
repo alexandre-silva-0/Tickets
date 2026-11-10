@@ -13,6 +13,12 @@ export async function createComment(req: IAuthRequest, res: Response) {
         userId: req.user!.id
     }
 
-    
+    console.log(ticketId)
+    console.log(req.user!.id)
+
+    res.json({
+        msg: 'chegamo aqui ne',
+        comment: comment
+    })
 
 }

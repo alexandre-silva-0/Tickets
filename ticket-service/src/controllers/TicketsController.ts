@@ -9,10 +9,12 @@ import { createNewTicket } from "../repositories/TicketRepository.js"
 
 export async function createTicket(req: IAuthRequest, res: Response) {
 
-    const { title, description, userId } = req.body
+    console.log(req)
+
+    const { title, description } = req.body
 
     const ticket = {
-        title, description, userId
+        title, description, userId: req.user!.id
     }
 
     try {
