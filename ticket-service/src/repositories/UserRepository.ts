@@ -17,3 +17,7 @@ export const registerNewUser = async (data: INewUser) => {
         console.error("Não foi possível registrar usuário, ", error)
     }
 }
+
+export const getUserById = async (userId: number) => {
+    return await User.findOne({ where: { userId } })
+}

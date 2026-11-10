@@ -8,8 +8,8 @@ import { User } from "./User.js";
 
 export class Ticket extends Model {
     @PrimaryKey
-    @Column(DataType.INTEGER)
     @AutoIncrement
+    @Column(DataType.INTEGER)
     declare id: number
 
     @AllowNull(false)
@@ -18,7 +18,7 @@ export class Ticket extends Model {
 
     @AllowNull(false)
     @Column(DataType.TEXT)
-    declare description: Text
+    declare description: string
 
     @AllowNull(false)
     @Column({
